@@ -1,0 +1,169 @@
+{% extends 'layouts/main.html' %}
+
+{% block 'content' %}
+    <!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Groups</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          {% comment %} <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard v2</li>
+          </ol> {% endcomment %}
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{message.tags}} alert-dismissible fade show m-5" role="alert">
+        <strong>{{message}}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Info boxes -->
+      <div class="card">
+        <div class="card-header">
+            <a href="#" class="btn btn-primary btn-sm float-right" data-toggle="modal" data-target="#addGroupModal">+ Add</a>
+        </div>
+        <div class="card-body">
+          
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>NO</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              
+              {% for g in groups %}
+              
+              <tr>
+                <td>{{ g.id }}</td>
+                <td>{{ g.name }}</td>
+                <td class="float-right">
+                    <a href="#" id='editGroupBtn' class="btn btn-warning btn-sm" onclick="group_edit('{{g.id}}','{{g.name}}')"><i class="fa fa-edit" data-toggle="modal" data-target="#editGroupModal"></i></a> 
+                    <a href="#" id='deleteGroupBtn' class="btn btn-danger btn-sm" onclick="group_delete('{{g.id}}')"><i class="fa fa-trash trigger-btn" data-toggle="modal" data-target="#myModal"></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+        </div>
+      </div>
+      <!-- /.row -->
+    </div><!--/. container-fluid -->
+  </section>
+  <!-- /.content -->
+
+
+  <!-- Add Group Modal -->
+  <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'addGroup' %}" method="POST">
+          {% csrf_token %}
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Name <strong class="text-danger">*</strong></label>
+                <input type="text" name="name" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btnSave">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Group Modal -->
+
+  <div class="modal fade" id="editGroupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Group</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="{% url 'editGroup' %}" method="POST">
+          {% csrf_token %}
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Name <strong class="text-danger">*</strong></label>
+                <input type="text" id="g-name" name="name" class="form-control">
+                <input type="hidden" id="g-id" name="id" class="form-control">
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary btnSave">Save changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- delete Group modal -->
+
+  <!-- Modal HTML -->
+  <div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <!-- <div class="icon-box">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </div> -->
+          <h4 class="modal-title">Are you sure?</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+
+        <form action="{% url 'deleteGroup' %}" method="POST">
+
+          {% csrf_token %}
+          <input type="hidden" id="gd-id" name="id">
+
+        <div class="modal-body">
+          <p>Do you really want to delete these records? This process cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  
+
+  {% load static %}
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'js/ajax.js' %}"
+    {% comment %} <script src="{% static 'js/groups.js' %}"></script> {% endcomment %}
+  {% endblock %}
