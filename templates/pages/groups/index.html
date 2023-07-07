@@ -53,7 +53,7 @@
               {% for g in groups %}
               
               <tr>
-                <td>{{ g.id }}</td>
+                <td>{{ forloop.counter }}</td>
                 <td>{{ g.name }}</td>
                 <td class="float-right">
                     <a href="#" id='editGroupBtn' class="btn btn-warning btn-sm" onclick="group_edit('{{g.id}}','{{g.name}}')"><i class="fa fa-edit" data-toggle="modal" data-target="#editGroupModal"></i></a> 
