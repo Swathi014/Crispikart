@@ -24,7 +24,7 @@
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="{% url 'login' %}" method="POST">
+      <form action="{% url 'sign-in' %}" method="POST">
         {% csrf_token %}
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="Username">
@@ -58,6 +58,17 @@
           <!-- /.col -->
         </div>
       </form>
+
+      {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{message.tags}} alert-dismissible fade show " role="alert">
+        <p style="color: red;">{{message}}</p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    {% endfor %}
+  {% endif %}
 
       <div class="social-auth-links text-center mt-2 mb-3">
         <a href="#" class="btn btn-block btn-primary">
