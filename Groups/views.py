@@ -2,13 +2,18 @@ from django.shortcuts import render, redirect
 from Menu.models import Group
 from django.contrib import messages
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator
 # Create your views here.
 
 def index(request):
 
-    groups = Group.objects.all()
+    groups_list = Group.objects.all()
+    groups = Paginator(groups_list,15)
+    page = request.GET.get('page')
+    s = groups.get_page(page)
+    nums = 'a' * s.paginator.num_pages
 
-    return render(request, 'pages/groups/index.html', {"groups": groups})
+    return render(request, 'pages/groups/index.html', {"groups": s,'nums':nums})
 
 def addGroup(request):
 
