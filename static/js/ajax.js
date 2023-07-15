@@ -6,3 +6,7 @@ function group_edit(group_id,group_name){
 function group_delete(group_id){
     $('#gd-id').val(group_id)
 }
+
+function order_delete(order_id){
+    $('#order-id').val(order_id)
+}
