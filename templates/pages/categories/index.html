@@ -18,7 +18,16 @@
     </div><!-- /.container-fluid -->
   </div>
   <!-- /.content-header -->
-
+  {% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{message.tags}} alert-dismissible fade show m-5" role="alert">
+      <strong>{{message}}</strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  {% endfor %}
+  {% endif %}
   <!-- Main content -->
   <section class="content">
     <div class="container-fluid">
@@ -45,7 +54,7 @@
               {% for c in categories %}
               
               <tr>
-                <td>{{ c.id }}</td>
+                <td>{{ forloop.counter }}</td>
                 <td>{{ c.name }}</td>
                 <td></td>
                 <td></td>
@@ -62,6 +71,40 @@
     </div><!--/. container-fluid -->
   </section>
   <!-- /.content -->
+
+  <!-- pagination added -->
+
+  {% if categories and categories.has_next or categories.has_previous %}
+  <div class="pl-2">
+    <nav aria-label="Page navigation example ml-5">
+      <ul class="pagination">
+
+        {% if categories.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{categories.previous_page_number}}" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+              <span class="sr-only">Previous</span>
+            </a>
+          </li>
+        {% endif %}
+
+        {% for n in nums %}
+          <li class="page-item"><a class="page-link" href="?page={{ forloop.counter }}">{{forloop.counter}}</a></li>
+        {% endfor %}
+
+        {% if categories.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{categories.next_page_number}}" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+              <span class="sr-only">Next</span>
+            </a>
+          </li>
+        {% endif %}
+
+      </ul>
+    </nav>
+  </div>
+  {% endif %}
 
   <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

@@ -8,7 +8,7 @@ from django.core.paginator import Paginator
 def index(request):
 
     groups_list = Group.objects.all()
-    groups = Paginator(groups_list,15)
+    groups = Paginator(groups_list,5)
     page = request.GET.get('page')
     s = groups.get_page(page)
     nums = 'a' * s.paginator.num_pages
@@ -18,19 +18,20 @@ def index(request):
 def addGroup(request):
 
     if request.method == "POST":
-        
-        # Group.objects.create(name=request.POST['name'],)
         req = request.POST
         name = req.get('name')
+        if not name:
+            messages.warning(request, 'Please provide a name for the Group.')
+        else:
 
-        try:
-            Group.objects.get(name=name)
-            messages.warning(request,'category already exists with same name')
-        except:
-            Group.objects.create(name=name)
-            messages.success(request,'new category created')
+            try:
+                Group.objects.get(name=name)
+                messages.warning(request,'Group already exists with same name')
+            except Group.DoesNotExist:
+                Group.objects.create(name=name)
+                messages.success(request,'new Group created')
 
-        return redirect('groups')
+    return redirect('groups')
     
 def editGroup(request):
 
