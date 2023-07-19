@@ -1,0 +1,227 @@
+{% extends 'layouts/main.html' %}
+{% block 'content' %}
+<style>
+  label {
+    font-size: 12px;
+  }
+
+  .form-container {
+    display: flex;
+  }
+  
+  .section {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .section:nth-child(even) {
+    
+  }
+
+  .vertical-line {
+    border-left: 1px solid #ccc;
+    margin: 20px;
+  }
+
+  .button-container {
+    text-align: center;
+  }
+  
+  .centered-button {
+    margin: 0 auto;
+  }
+
+  .profile-picture-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    overflow: hidden;
+}
+
+.profile-picture-upload img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+</style>
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 class="m-0">Profile Setup</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+          {% comment %} <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard v2</li>
+          </ol> {% endcomment %}
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </div>
+  <!-- /.content-header -->
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <!-- Info boxes -->
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+              <form action="{% url 'addProfile' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+              <div class="card-header">
+
+              </div>
+              <div class="card-body">
+                <div class="profile-picture-upload" style="margin-left: 42.5%;">
+                  <input type="file" name="profile_image" accept="image/*" id="id_picture" class="d-none">
+                  {% load static %}
+                  <label for="id_picture">
+                      <img src="{% static 'images/default_restorant_pic.png' %}" id="" width="100" height="100" alt="Choose Image"> 
+                  </label>
+              </div>
+                <div class="form-container">
+                  <div class="section">
+                    <div class="form-group">
+                      <label style="text-decoration: underline;">PRIVATE INFORMATION</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Owner Name</label>
+                      <input type="text" name="owner_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Email</label>
+                      <input type="email" name="private_email" class="form-control">
+                    </div> 
+                    <div class="form-group">
+                      <label class="text-muted">Contact No</label>
+                      <input type="text" name="private_contact_no" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Whatsapp No</label>
+                      <input type="text" name="private_whatsapp_no" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Established Year</label>
+                      <input type="text" name="established_year" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">No of employees</label>
+                      <input type="text" name="no_of_employees" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Manager Name</label>
+                      <input type="text" name="manager_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Manager Contact No</label>
+                      <input type="text" name="manager_contact_no" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted" style="text-decoration: underline;">Payment Options</label>
+                      <br>
+                      <input type="checkbox" name="payment_options[]" value="COD"> COD
+                      <br>
+                      <input type="checkbox" name="payment_options[]" value="Online Payment"> Online Payment
+                      <br>
+                      <input type="checkbox" name="payment_options[]" value="Gpay"> Gpay
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted" style="text-decoration: underline;">Settlement</label>
+                      <br>
+                      <label class="text-muted">Type</label>
+                      <br>
+                      <input type="checkbox" name="settlement_types[]" value="Daily"> Daily
+                      <br>
+                      <input type="checkbox" name="settlement_types[]" value="Weekly"> Weekly
+                      <br>
+                      <label class="text-muted">Mode</label>
+                      <br>
+                      <input type="checkbox" name="settlement_modes[]" value="Cash"> Cash
+                      <br>
+                      <input type="checkbox" name="settlement_modes[]" value="Transfer"> Transfer
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div class="section">
+                  
+          
+                    <div class="form-group">
+                      <label style="text-decoration: underline;">PUBLIC INFORMATION</label>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Restorant Name</label>
+                      <input type="text" name="restorant_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Images</label>
+                      <div class="custom-file">
+                        <input type="file" multiple="multiple" class="custom-file-input" id="imageUpload" name="restorant_images[]" accept="image/*">
+                        <label class="custom-file-label" for="imageUpload">Choose File</label>
+                      </div>
+                    </div> 
+                    <div class="form-group">
+                      <label class="text-muted">Address</label>
+                      <textarea type="textarea" name="address" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Location</label>
+                      {% comment %} <input type="text" name="whatsapp_no" class="form-control"> {% endcomment %}
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Working Time</label>
+                      <br>
+                      <input type="checkbox" name="working_times[]" value="1"> Hotel Available Time
+                      <br>
+                      <input type="checkbox" name="working_times[]" value="2"> Breakfast Time
+                      <br>
+                      <input type="checkbox" name="working_times[]" value="3"> Lunch Time
+                      <br>
+                      <input type="checkbox" name="working_times[]" value="4"> Dinner Time
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Order Options</label>
+                      <br>
+                      <input type="checkbox" name="order_options[]" value="Pick Up"> Pick Up
+                      <br>
+                      <input type="checkbox" name="order_options[]" value="Delivary"> Delivary
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Contact No</label>
+                      <input type="text" name="public_contact_no" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Whatsapp No</label>
+                      <input type="text" name="public_whatsapp_no" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <label class="text-muted">Email</label>
+                      <input type="email" name="restorant_email" class="form-control">
+                    </div>
+                </div>
+                
+              </div>
+              <div class="button-container">
+                <button type="submit" class="btn btn-primary centered-button w-40">Update</button>
+              </div>
+              </div>
+            </form>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>    
+  <script>
+    $(function(){
+
+    });
+  </script>
+
+  {% endblock %}
