@@ -44,7 +44,8 @@
               <tr>
                 <th>NO</th>
                 <th>Name</th>
-                <th></th>
+                <th>Start Time</th>
+                <th>End Time</th>
               </tr>
             </thead>
 
@@ -55,8 +56,10 @@
               <tr>
                 <td>{{ forloop.counter }}</td>
                 <td>{{ g.name }}</td>
+                <td>{{ g.StartTime }}</td>
+                <td>{{ g.EndTime }}</td>
                 <td class="float-right">
-                    <a href="#" id='editGroupBtn' class="btn btn-warning btn-sm" onclick="group_edit('{{g.id}}','{{g.name}}')"><i class="fa fa-edit" data-toggle="modal" data-target="#editGroupModal"></i></a> 
+                    <a href="#" id='editGroupBtn' class="btn btn-warning btn-sm" onclick='group_edit("{{g.id}}","{{g.name}}","{{g.StartTime|time:'H:i:s'}}","{{g.EndTime|time:'H:i:s'}}")'><i class="fa fa-edit" data-toggle="modal" data-target="#editGroupModal"></i></a> 
                     <a href="#" id='deleteGroupBtn' class="btn btn-danger btn-sm" onclick="group_delete('{{g.id}}')"><i class="fa fa-trash trigger-btn" data-toggle="modal" data-target="#myModal"></i></a>
                 </td>
               </tr>
@@ -120,6 +123,10 @@
             <div class="form-group">
                 <label>Name <strong class="text-danger">*</strong></label>
                 <input type="text" name="name" class="form-control">
+                <label>Start Time <strong class="text-danger">*</strong></label>
+                <input type="time" name="StartTime" class="form-control" placeholder="Ex: 08:00">
+                <label>End Time <strong class="text-danger">*</strong></label>
+                <input type="time" name="EndTime" class="form-control" placeholder="Ex: 10:00">
             </div>
         </div>
         <div class="modal-footer">
@@ -149,6 +156,11 @@
                 <label>Name <strong class="text-danger">*</strong></label>
                 <input type="text" id="g-name" name="name" class="form-control">
                 <input type="hidden" id="g-id" name="id" class="form-control">
+                <label>Start Time<strong class="text-danger">*</strong></label>
+                <input type="time" id="g-start" name="StartTime" class="form-control">
+                <label>End Time<strong class="text-danger">*</strong></label>
+                <input type="time" id="g-end" name="EndTime" class="form-control">
+                
             </div>
         </div>
         <div class="modal-footer">

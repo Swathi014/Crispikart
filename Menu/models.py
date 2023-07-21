@@ -3,6 +3,8 @@ from django.db import models
 # Create your models here.
 class Group(models.Model):
     name = models.CharField(max_length=200)
+    StartTime = models.TimeField()
+    EndTime = models.TimeField()
 
 class Category(models.Model):
     group_id = models.IntegerField()
